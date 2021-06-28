@@ -13,19 +13,37 @@ body {
     margin: 0;
 }
 
-#left{
+.leftcontainer{
     background-color: rgb(224,224,224);
     height: 90vh;
     width: 16.5vw;
-    text-align: center;
-    font-size: 20px;
+    text-align: left;
+    font-size: 30px;
     font-family: sans-serif;
     padding-top: 5vh;
 }
 
-#projects{
-    color: purple;
-    padding-top: 7.5vh;
-    top: 50%;
+ol#projects {
+    padding-top: 2vh;
 }
 
+ol#projects li {
+    padding-top: 5px;
+    list-style-type: none;
+    font-size: 20px;
+}
+
+.tasklist {
+    position: absolute;
+    width: 40%;
+    min-height: 6vh;
+    font-size: 25px;
+    left: 20%;
+    top: 20%;
+}
+
+ul.tasklist li{
+    list-style-type: none;
+    background-color: gray;
+    margin-top: 15px;
+}
