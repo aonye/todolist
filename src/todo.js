@@ -23,9 +23,9 @@ const taskItem = (title, descript, dueDate, priority, notes, checklist) => {
 //New projects also have access to task objects
 
 
-**BIGGEST THING TO BE AWARE OF**
-You should separate your application logic (i.e. creating new todos, setting todos as complete, changing todo priority etc.) 
-from the DOM-related stuff, so keep all of those things in separate modules.
+// **BIGGEST THING TO BE AWARE OF**
+// You should separate your application logic (i.e. creating new todos, setting todos as complete, changing todo priority etc.) 
+// from the DOM-related stuff, so keep all of those things in separate modules.
 
 //Interface should have the following:
 
