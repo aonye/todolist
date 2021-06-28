@@ -43,7 +43,19 @@ ol#projects li {
 }
 
 ul.tasklist li{
+    display: flex;
     list-style-type: none;
     background-color: gray;
-    margin-top: 15px;
+    margin-top: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul.tasklist li div label {
+    display: flex;
+    justify-self: flex-end;
+    background-color: purple;
+}
+
+ul.tasklist li div {
 }
