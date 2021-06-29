@@ -1,57 +1,57 @@
 // import _ from 'lodash';
 // import myName from './myName';
 // import printMe from './print.js';
-import home from './home.js';
-import contact from './contact.js';
-import menu from './menu.js';
+import taskItem from './todo.js';
+import dom from './dom.js';
 
 
 const component = (() => {
-    //const element = document.createElement('div');
-    const container = document.querySelector('#content');
-    const homeTab = document.querySelector('#home');
-    const menuTab = document.querySelector('#menu');
-    const contactTab = document.querySelector('#contact');
+    const title = document.querySelector('.title');
+    const tasklist = document.querySelector('.tasklist');
 
-    let homeDisplay = home.createHome();
-    //console.log(homeDisplay, 'homedisplay');
+    let roger = taskItem('a', 'b','c','d','e');
 
-    let contactDisplay = contact.createContact();
-    //console.log(contactDisplay, 'contactdisplay');
+    title.textContent = roger["title"];
 
-    let menuDisplay = menu.createMenu();
-    //console.log(menu2, 'menudisplay');
+    let x = dom.assembleTask();
+    console.log(x);
+    tasklist.append(x);
+    addListener();
 
-    const homeClickHandler = () => {
-        deleteCurrentContent();
-        appendContent(homeDisplay);
-    }
 
-    const menuClickHandler = () => {
-        deleteCurrentContent();
-        appendContent(menuDisplay);
-    }
 
-    const contactClickHandler = () => {
-        deleteCurrentContent(); 
-        appendContent(contactDisplay);
-    }
 
-    const appendContent = (arr) => {
-        const div = document.createElement('div');
-        div.classList.add('firstchild');
-        for (let i=0; i < arr.length; i++){
-            div.appendChild(arr[i]);
-        }
-        container.append(div);
-    }
 
-    const deleteCurrentContent = () => {
-        let firstchild = document.querySelector('.firstchild');
-        container.removeChild(firstchild);
-    }
 
-    appendContent(homeDisplay);
+
+    // const homeClickHandler = () => {
+    //     deleteCurrentContent();
+    //     appendContent(homeDisplay);
+    // }
+
+    // const menuClickHandler = () => {
+    //     deleteCurrentContent();
+    //     appendContent(menuDisplay);
+    // }
+
+    // const contactClickHandler = () => {
+    //     deleteCurrentContent(); 
+    //     appendContent(contactDisplay);
+    // }
+
+    // const appendContent = (arr) => {
+    //     const div = document.createElement('div');
+    //     div.classList.add('firstchild');
+    //     for (let i=0; i < arr.length; i++){
+    //         div.appendChild(arr[i]);
+    //     }
+    //     container.append(div);
+    // }
+
+    // const deleteCurrentContent = () => {
+    //     let firstchild = document.querySelector('.firstchild');
+    //     container.removeChild(firstchild);
+
    
     // Lodash, currently included via a script, is required for this line to work
     // Lodash, now imported by this script
@@ -66,9 +66,17 @@ const component = (() => {
   
     //return element;
 
-    homeTab.addEventListener('click', homeClickHandler);
-    menuTab.addEventListener('click', menuClickHandler);
-    contactTab.addEventListener('click', contactClickHandler);
+    function addListener(){
+        let inputList = document.querySelectorAll('div.container input[type="checkbox"]');
+        inputList.forEach((button) => button.addEventListener('change', changeHandler));
+    }
+
+    function changeHandler(event){
+        dom.deleteNode(event.target);
+    }
+
+
+    return;
     
 })();
 

@@ -6,9 +6,11 @@ which means either using factories or constructors/classes to generate them.
 //Need to save them to localstorage (different module)
 
 */
-const taskItem = (title, descript, dueDate, priority, notes, checklist) => {
-    return { title, descript, dueDate, priority, notes="", checklist=""};
+const taskItem = (title, descript, dueDate, priority, notes="") => {
+    return { title, descript, dueDate, priority, notes};
 };
+
+export default taskItem;
 
 //To do properties
 //At a minimum they should have a title, description, dueDate and priority. 
