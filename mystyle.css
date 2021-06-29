@@ -16,7 +16,7 @@ body {
 .leftcontainer{
     background-color: rgb(224,224,224);
     height: 90vh;
-    width: 16.5vw;
+    width: 20vw;
     text-align: left;
     font-size: 2vw;
     font-family: sans-serif;
@@ -35,10 +35,10 @@ ol#projects li {
 
 .tasklist {
     position: absolute;
-    width: 40%;
+    width: 50%;
     min-height: 6vh;
     font-size: 1.2vw;
-    left: 20%;
+    left: 25%;
     top: 20%;
 }
 
@@ -75,6 +75,7 @@ ul.tasklist li div.date button{
     border: none;
 }
 
+/*
 ul.tasklist li div.notes button{
     background-image: url(https://cdn.iconscout.com/icon/premium/png-256-thumb/notes-2538663-2131009.png);
     background-size: cover;
@@ -84,6 +85,7 @@ ul.tasklist li div.notes button{
     height: 25px;
     border: none;
 }
+*/
 
 ul.tasklist li div.priority button{
     background-image: url(https://img.icons8.com/ios/452/high-priority.png);
@@ -103,6 +105,7 @@ input[type="checkbox"]{
     height: 25px;
     border: none;
     position: relative;
+    border-radius: 2px;
 }
 input[type="checkbox"]:checked {
     background: red;
