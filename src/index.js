@@ -8,15 +8,9 @@ import dom from './dom.js';
 const component = (() => {
     const title = document.querySelector('.title');
     const tasklist = document.querySelector('.tasklist');
+    const newtaskBtn = document.querySelector('.newtask');
 
-    let roger = taskItem('a', 'b','c','d','e');
-
-    title.textContent = roger["title"];
-
-    let x = dom.assembleTask();
-    console.log(x);
-    tasklist.append(x);
-    addListener();
+    // addListener();
 
 
 
@@ -74,6 +68,15 @@ const component = (() => {
     function changeHandler(event){
         dom.deleteNode(event.target);
     }
+
+    function newTaskHandler(){
+        let emptyTask = taskItem();
+        emptyTask = dom.assembleTask(emptyTask);
+        dom.insertNode(tasklist, emptyTask, newtaskBtn);
+        addListener();
+    }
+
+    newtaskBtn.addEventListener('click', newTaskHandler);
 
 
     return;

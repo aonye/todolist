@@ -7,27 +7,46 @@
   </head>
   <body>
     <header>
-      <div id="mydiv">
+      <div id="header">
       Aonye's To Do List App
       </div>
     </header>
 
-    <div class="leftcontainer">
-      <ol id="general">
-        General
-      </ol>
-      <ol id="projects">
-        Projects
-        <li>MyProject</li>
-        <li>ssss</li>
-      </ol>
+    <div id="content">
+      <div id="sidebar">
+        <ol id="general">
+          General
+        </ol>
+        <ol id="projects">
+          Projects
+          <li>MyProject</li>
+          <li>ssss</li>
+        </ol>
+      </div>
     </div>
 
     <ul class="tasklist">
       <li>
         <div class="title">Title</div>
         <div class="descript">Description</div>
-        <div class="date">
+        <div class="duedate">
+          <div>Due Date:</div>
+          <button type="button"></button>
+        </div>
+        <div class="priority">
+          <button type="button"></button>
+        </div>
+        <div class="container">
+          <label>
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+          </label>
+        </div>
+      </li>
+      <li>
+        <div class="title">Title</div>
+        <div class="descript">Description</div>
+        <div class="duedate">
           <div>Due Date:</div>
           <button type="button"></button>
         </div>
@@ -41,22 +60,8 @@
         </label>
         </div>
       </li>
-      <li>
-        <div class="title">Titles</div>
-        <div class="descript">Description</div>
-        <div class="date">
-          <div>Due Date:</div>
-          <button type="button"></button>
-        </div>
-        <div class="priority">
-          <button type="button"></button>
-        </div>
-        <div class="container">
-          <label>
-          <input type="checkbox" checked="checked">
-          <span class="checkmark"></span>
-        </label>
-        </div>
+      <li class="newtask">
+        <div>Add New Task</div>
       </li>
     </ul>
     <script src="main.js"></script>

@@ -9,13 +9,13 @@ header {
     padding: 2rem;
 }
 
-body {
+html, body {
     margin: 0;
 }
 
-.leftcontainer{
-    background-color: rgb(224,224,224);
-    height: 90vh;
+#sidebar{  
+    background-color: rgb(230,230,230);
+    height: 100vh;
     width: 20vw;
     text-align: left;
     font-size: 2vw;
@@ -44,35 +44,47 @@ ol#projects li {
 
 ul.tasklist li{
     display: flex;
+    font-family: sans-serif;
     list-style-type: none;
-    background-color: gray;
+    background-color: rgb(230, 230, 230);
     margin-top: 10px;
+    height: 40px;
     justify-content: space-between;
     align-items: center;
     border-radius: 5px;
+    overflow-y: auto;
 }
 
-ul.tasklist li div.title{
+ul.tasklist li:hover, ul.tasklist li:hover div.duedate button, ul.tasklist li:hover div.priority button{
+    cursor: pointer;
+    background-color: rgb(180, 180, 180);
+}
+
+li div.title{
     padding-left: 5px;
 }
 
-ul.tasklist li div.container {
+li div.container {
     display: flex;
     justify-self: flex-end;
 }
 
-ul.tasklist li div.date {
+li div.duedate {
     display: flex;
     align-items: center;
 }
 
-ul.tasklist li div.date button{
+li div.duedate button{
     background-image: url(https://cdn.icon-icons.com/icons2/2528/PNG/512/calendar_icon_151795.png);
     background-size: cover;
-    background-color: gray;
     width: 25px;
     height: 25px;
     border: none;
+}
+
+.newtask{
+    display: flex;
+    justify-content: center !important;
 }
 
 /*
@@ -90,7 +102,6 @@ ul.tasklist li div.notes button{
 ul.tasklist li div.priority button{
     background-image: url(https://img.icons8.com/ios/452/high-priority.png);
     background-size: cover;
-    background-color: gray;
     margin-top: 5px;
     width: 25px;
     height: 25px;
@@ -99,7 +110,7 @@ ul.tasklist li div.priority button{
 
 input[type="checkbox"]{
     appearance: initial;
-    background: gray;
+    background: rgb(230,230,230);
     margin-top: 5px;
     width: 25px;
     height: 25px;

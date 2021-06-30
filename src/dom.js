@@ -1,21 +1,7 @@
+//import taskItem from "./todo";
+
 
 const dom = (() => {
-    function makeDiv() {
-        return document.createElement('div');
-    }
-    function makeButton(){
-        return document.createElement('button');
-    };
-
-    const makeCheckbox = () => {
-        let label = document.createElement('label');
-        let input = document.createElement('input');
-        let span = document.createElement('span');
-        setAttributes(input, {'type': 'checkbox', 'checked': 'checked'});
-        span.setAttribute('class', 'checkmark');
-        label.append(input, span);
-        return label;
-    };
 
     function setAttributes(element, attrObj){
         for(var key in attrObj) {
@@ -23,15 +9,75 @@ const dom = (() => {
         }
     }
 
-    const assembleTask = () => {
+    const assembleTask = (defaultObj) => {
         let li = document.createElement('li');
-        let div = makeDiv();
-        div.setAttribute('class', 'container');
-        let label = makeCheckbox();
+        appendMainDiv(defaultObj);
 
-        div.append(label);
-        li.append(div);
+        const dueDate = li.querySelector('.duedate');
+        console.log(dueDate);
+        let checkbox = makeDiv('container');
+        let label = makeCheckbox();
+        checkbox.append(label);
+        li.append(checkbox);
+        
         return li;
+
+        function makeButton(){
+            let btn = document.createElement('button');
+            btn.setAttribute('type', 'button');
+            return btn;
+        }
+    
+        function makeDiv(divClass="") {
+            let div = document.createElement('div');
+            if (divClass){
+                div.setAttribute('class', divClass);
+            }
+            return div;
+        }
+
+        function makeCheckbox(){
+            let label = document.createElement('label');
+            let input = document.createElement('input');
+            let span = document.createElement('span');
+            setAttributes(input, {'type': 'checkbox', 'checked': 'checked'});
+            span.setAttribute('class', 'checkmark');
+            label.append(input, span);
+            return label;
+        }
+
+        function appendMainDiv(obj){
+            for (var key in obj){
+                let div = document.createElement('div');
+                div.setAttribute('class', key);
+                appendContent(div,key);
+                li.append(div);
+            }
+        }
+
+        function appendContent(node,key){
+            if (key==='title'){
+                node.textContent='Title';
+            }
+            else if (key==='descript'){
+                node.textContent='Description';
+            }
+            else if (key==='duedate' || key==='priority'){
+                if (key==='duedate'){
+                    let div = makeDiv();
+                    div.textContent = 'Due Date: ';
+                    node.append(div);
+                }
+                let button = makeButton();
+                node.append(button);
+            }
+        }
+
+
+    }
+
+    const insertNode = (tasklist, emptyTask, newtaskBtn) => {
+        tasklist.insertBefore(emptyTask, newtaskBtn);
     }
 
     const deleteNode = (inputNode) => {
@@ -44,7 +90,7 @@ const dom = (() => {
         }
     }
 
-    return { assembleTask, deleteNode };
+    return { assembleTask, insertNode, deleteNode };
 })();
 
 export default dom;
