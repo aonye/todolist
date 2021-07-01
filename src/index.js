@@ -5,12 +5,14 @@ import taskItem from './todo.js';
 import dom from './dom.js';
 
 
+
 const component = (() => {
     const title = document.querySelector('.title');
     const tasklist = document.querySelector('.tasklist');
     const newtaskBtn = document.querySelector('.newtask');
+    const dueDate = document.querySelectorAll('.duedate div');
 
-    // addListener();
+    console.log(dueDate);
 
 
 
@@ -60,20 +62,20 @@ const component = (() => {
   
     //return element;
 
-    function addListener(){
+    function addXBtnListener(){
         let inputList = document.querySelectorAll('div.container input[type="checkbox"]');
         inputList.forEach((button) => button.addEventListener('change', changeHandler));
     }
 
     function changeHandler(event){
-        dom.deleteNode(event.target);
+        dom.deleteTask(event.target);
     }
 
     function newTaskHandler(){
         let emptyTask = taskItem();
         emptyTask = dom.assembleTask(emptyTask);
         dom.insertNode(tasklist, emptyTask, newtaskBtn);
-        addListener();
+        addXBtnListener();
     }
 
     newtaskBtn.addEventListener('click', newTaskHandler);
