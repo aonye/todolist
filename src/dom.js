@@ -1,19 +1,32 @@
-const dom = (() => {
-    let count = 0;
+import storage from "./storage.js";
 
-    const assembleTask = (defaultObj) => {
+const dom = (() => {
+
+    const assembleTask = (obj) => {
         let li = document.createElement('li');
-        setID(li);
-        appendMainDiv(defaultObj);
+        checkObjID(obj);
+        appendMainDiv(obj);
         let checkbox = makeDiv('container');
         let label = makeCheckbox();
         checkbox.append(label);
         li.append(checkbox);
         return li;
 
-        function setID(list){
-            list.setAttribute('id', 'id' + count);
-            count++;
+        function generateID(li){
+            let count = storage.getCount();
+            console.log(count);
+            li.setAttribute('id', 'id' + count);
+            storage.incrementCount(count);
+        }
+
+        function checkObjID(obj){
+            if (obj["id"]){
+                li.setAttribute('id', obj["id"]);
+                return;
+            }
+            else {
+                generateID(li);
+            }
         }
 
         function makeButton(){
@@ -45,27 +58,61 @@ const dom = (() => {
                 if (key==='id'){
                     continue;
                 }
-                let div = document.createElement('div');
-                div.setAttribute('class', key);
+                let div = makeDiv(key);
                 appendContent(div,key,obj);
                 li.append(div);
             }
 
             function appendContent(node,key,obj){
-                if (key==='title' || key==='descript'){
-                    node.textContent=obj[key];
+                let val = obj[key];
+                switch(key){
+                    case('title'):
+                    case('descript'): {
+                        let div = makeDiv();
+                        div.textContent=obj[key];
+                        let input = createTextInput();
+                        input.style.display = 'none';
+                        node.append(div,input);
+                        break;
+                    }
+                    case('duedate'):{
+                        if (val===''){
+                            makeDateDiv();
+                        }
+                        else {
+                            let input = makeDateInput();
+                            input.value = val;
+                            node.append(input);
+                        }
+                        break;
+                    }
+                    case('priority'): {
+                        addShadow(val);
+                        node.classList.add(val);
+                        let button = makeButton();
+                        node.append(button);
+                        break;
+                    }
                 }
-                else if (key==='duedate'){
+
+                function addShadow(val){
+                    if (val==='high'){
+                        li.classList.add('shadow');
+                    }
+                }
+
+                function makeDateDiv(){
                     let label = document.createElement('label');
                     label.setAttribute('for', 'date');
                     label.textContent = 'Due Date: ';
                     let div = makeDiv();
-                    node.append(label, div);
+                    node.append(label, div); 
                 }
-                else if (key==='priority'){
-                    node.classList.add(obj[key]);
-                    let button = makeButton();
-                    node.append(button);
+
+                function createTextInput(){
+                    let input = document.createElement('input');
+                    setAttributes(input, {'type': 'text', 'name': 'name', 'minlength': '1', 'maxlength': '15', 'placeholder': 'Enter to save'});
+                    return input;
                 }
             }
         }
@@ -88,9 +135,8 @@ const dom = (() => {
     }
 
     const deleteTask = (inputNode) => {
-        let parent = getNthParent(inputNode, 3); //selects li
-        //console.log(parent);
-        parent.remove();
+        let parentList = getNthParent(inputNode, 3);
+        parentList.remove();
     }
 
     function getNthParent(elem, n) {
@@ -103,17 +149,16 @@ const dom = (() => {
         }
     }
 
-    const appendTextNode = (event) => {
-        let div = event.target;
-        let input = document.createElement('input');
-        setAttributes(input, {'type': 'text', 'id': 'name', 'name': 'name', 'minlength': '1', 'maxlength': '15', 'placeholder': 'Enter to save'});
-        let li = div.parentNode;
-        insertNode(li, input, div);
-        let removedDiv = li.removeChild(div);
-        return [removedDiv, input];  
+    const toggleNode = (node) => {
+        if (node.style.display==='none'){
+            node.style.display='';
+        }
+        else {
+            node.style.display='none';
+        }
     };
 
-    const appendTextContent = (div, event) => {
+    const appendTextContent = (div,event) => {
         let input = event.target;
         let li = event.target.parentNode;
         div.textContent = input.value;
@@ -121,17 +166,20 @@ const dom = (() => {
         input.remove();
     };
 
-    const toggleShadow = (listContainer, prioDiv) => {
+    const toggleShadow = (parentList, prioDiv) => {
         if (prioDiv.classList.contains('normal')){
             prioDiv.classList.remove('normal');
-            listContainer.classList.add('shadow');
+            parentList.classList.add('shadow');
+            return 'high';
         }
         else {
             prioDiv.classList.add('normal');
-            listContainer.classList.remove('shadow');
+            parentList.classList.remove('shadow');
+            return 'normal';
         }
-    }
-    return { assembleTask, insertNode, deleteTask, removeAllChildNodes, makeDateInput, getNthParent, toggleShadow, appendTextNode, appendTextContent };
+    };
+
+    return { assembleTask, insertNode, deleteTask, removeAllChildNodes, makeDateInput, getNthParent, toggleShadow, toggleNode, appendTextContent };
 })();
 
 export default dom;

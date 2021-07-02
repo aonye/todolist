@@ -1,5 +1,19 @@
 const storage = (() => {
 
+    const getCount = () => {
+        let count = localStorage.getItem('count');
+        if (!count){
+            count = 0;
+        }
+        return count;
+    }
+
+    const incrementCount = () => {
+        let count = getCount();
+        count++;
+        localStorage.setItem('count', count);
+    };
+
     const showStorage = () => {
         let tasks = JSON.parse(localStorage.getItem('projectTaskArr'));
         console.log(tasks);
@@ -34,15 +48,22 @@ const storage = (() => {
         localStorage.setItem('projectTaskArr', JSON.stringify(newArr));
     }
 
-    const updateVal = (id, newClass, key) => {
+    // const updateVal = (id, key, val) => {
+    //     let arr = retrieveStorage();
+    //     let index = returnIndex(arr,id);
+    //     if (!newClass){
+    //         arr[index][key]='high';
+    //     }
+    //     else {
+    //         arr[index][key]='normal';
+    //     }
+    //     localStorage.setItem('projectTaskArr', JSON.stringify(arr));
+    // };
+
+    const updateVal = (id, key, val) => {
         let arr = retrieveStorage();
         let index = returnIndex(arr,id);
-        if (!newClass){
-            arr[index][key]='high';
-        }
-        else {
-            arr[index][key]='normal';
-        }
+        arr[index][key]=val;
         localStorage.setItem('projectTaskArr', JSON.stringify(arr));
     };
 
@@ -51,7 +72,7 @@ const storage = (() => {
         return index;
     };
 
-    return { retrieveStorage, setStorage, showStorage, updateID, removeByID, updateVal }
+    return { retrieveStorage, setStorage, showStorage, updateID, removeByID, updateVal, getCount, incrementCount }
 })();
 
 export default storage;
