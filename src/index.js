@@ -3,22 +3,15 @@
 // import printMe from './print.js';
 import taskItem from './todo.js';
 import dom from './dom.js';
+import storage from './storage.js';
 
-
+localStorage.clear();
 
 const component = (() => {
     const title = document.querySelector('.title');
     const tasklist = document.querySelector('.tasklist');
     const newtaskBtn = document.querySelector('.newtask');
     const dueDate = document.querySelectorAll('.duedate div');
-
-    console.log(dueDate);
-
-
-
-
-
-
 
     // const homeClickHandler = () => {
     //     deleteCurrentContent();
@@ -62,20 +55,72 @@ const component = (() => {
   
     //return element;
 
-    function addXBtnListener(){
-        let inputList = document.querySelectorAll('div.container input[type="checkbox"]');
-        inputList.forEach((button) => button.addEventListener('change', changeHandler));
-    }
-
-    function changeHandler(event){
-        dom.deleteTask(event.target);
-    }
-
     function newTaskHandler(){
-        let emptyTask = taskItem();
-        emptyTask = dom.assembleTask(emptyTask);
+        let emptyTaskObj = taskItem();
+        let emptyTask = dom.assembleTask(emptyTaskObj);
         dom.insertNode(tasklist, emptyTask, newtaskBtn);
-        addXBtnListener();
+        assignEventHandlers(emptyTask);
+        storage.updateID(emptyTask, emptyTaskObj);
+    }
+
+    function textClickHand(event){
+        let arr = dom.appendTextNode(event);
+        let removedDiv = arr[0];
+        let input = arr[1];
+        
+        input.addEventListener('keypress', enterHandler);
+
+        function enterHandler(event){
+            if (event.key==='Enter'){
+                dom.appendTextContent(removedDiv, event);
+            }
+        }
+    }
+
+    function dateClickHand(event){
+        let dateContainer = event.target.parentNode;
+        dom.removeAllChildNodes(dateContainer);
+        dateContainer.append(dom.makeDateInput());
+        event.target.removeEventListener('click', dateClickHand);
+    }
+
+    function priorityClickHand(event){
+        let listCont = dom.getNthParent(event.target, 2);
+        dom.toggleShadow(listCont, event.target.parentNode);
+        let updatedClass = event.target.parentNode.classList[1];
+        storage.updateVal(listCont.id, updatedClass, 'priority');
+        storage.showStorage();
+    }
+
+    function XBtnClickHandler(event){
+        let list = dom.getNthParent(event.target, 3);
+        let index = storage.removeByID(list.id);
+        dom.deleteTask(event.target);
+        storage.showStorage();
+    }
+
+    const assignEventHandlers = (domnodes) => {
+        addTextEvent(domnodes.querySelector('.title'));
+        addTextEvent(domnodes.querySelector('.descript'));
+        addDateEvent(domnodes.querySelector('.duedate div'));
+        addPriorityEvent(domnodes.querySelector('.priority button'));
+        addXBtnListener(domnodes.querySelector('.container label input')); 
+        
+        function addTextEvent(node){
+            node.addEventListener('click', textClickHand);
+        }
+
+        function addPriorityEvent(button){
+            button.addEventListener('click', priorityClickHand);
+        }
+    
+        function addDateEvent(duedate){
+            duedate.addEventListener('click', dateClickHand);
+        }
+    
+        function addXBtnListener(input){
+            input.addEventListener('change', XBtnClickHandler);
+        }
     }
 
     newtaskBtn.addEventListener('click', newTaskHandler);
@@ -85,5 +130,5 @@ const component = (() => {
     
 })();
 
-  
+export default component;
 //document.body.appendChild(component());

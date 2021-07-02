@@ -6,8 +6,8 @@ which means either using factories or constructors/classes to generate them.
 //Need to save them to localstorage (different module)
 
 */
-const taskItem = (title="Title", descript="Description", duedate="", priority="normal") => {
-    return { title, descript, duedate, priority};
+const taskItem = (id="", title="Title", descript="Description", duedate="", priority="normal") => {
+    return { id, title, descript, duedate, priority };
 };
 
 export default taskItem;

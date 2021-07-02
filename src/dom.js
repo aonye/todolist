@@ -1,49 +1,19 @@
-//import taskItem from "./todo";
-
-
 const dom = (() => {
+    let count = 0;
 
     const assembleTask = (defaultObj) => {
         let li = document.createElement('li');
+        setID(li);
         appendMainDiv(defaultObj);
-
-        const dueDate = li.querySelector('.duedate');
         let checkbox = makeDiv('container');
         let label = makeCheckbox();
         checkbox.append(label);
         li.append(checkbox);
-        
         return li;
 
-        function dateClickHand(event){
-            let dateContainer = event.target.parentNode;
-            removeAllChildNodes(dateContainer);
-            dateContainer.append(makeDateInput());
-            event.target.removeEventListener('click', dateClickHand);
-        }
-
-        function makeDateInput(){
-            let input = document.createElement('input');
-            setAttributes(input, {'type': 'date', 'name': 'date', 'id': 'date'});
-            return input;
-        }
-
-        function priorityClickHand(event){
-            //console.log(event.target);
-            let priorityContainer = getNthParent(event.target, 2);
-            toggleShadow(priorityContainer);
-
-            function toggleShadow(list){
-                console.log(list.className);
-                if (!list.className){
-                    list.classList.add('shadow');
-                    console.log(list);
-                }
-                else {
-                    list.classList.remove('shadow');
-                    console.log(list);
-                }
-            }
+        function setID(list){
+            list.setAttribute('id', 'id' + count);
+            count++;
         }
 
         function makeButton(){
@@ -72,34 +42,39 @@ const dom = (() => {
 
         function appendMainDiv(obj){
             for (var key in obj){
+                if (key==='id'){
+                    continue;
+                }
                 let div = document.createElement('div');
                 div.setAttribute('class', key);
-                appendContent(div,key);
+                appendContent(div,key,obj);
                 li.append(div);
             }
-        }
 
-        function appendContent(node,key){
-            if (key==='title'){
-                node.textContent='Title';
-            }
-            else if (key==='descript'){
-                node.textContent='Description';
-            }
-            else if (key==='duedate'){
-                let label = document.createElement('label');
-                label.setAttribute('for', 'date');
-                label.textContent = 'Due Date: ';
-                let div = makeDiv();
-                div.addEventListener('click', dateClickHand);
-                node.append(label, div);
-            }
-            else if (key==='priority'){
-                let button = makeButton();
-                button.addEventListener('click', priorityClickHand);
-                node.append(button);
+            function appendContent(node,key,obj){
+                if (key==='title' || key==='descript'){
+                    node.textContent=obj[key];
+                }
+                else if (key==='duedate'){
+                    let label = document.createElement('label');
+                    label.setAttribute('for', 'date');
+                    label.textContent = 'Due Date: ';
+                    let div = makeDiv();
+                    node.append(label, div);
+                }
+                else if (key==='priority'){
+                    node.classList.add(obj[key]);
+                    let button = makeButton();
+                    node.append(button);
+                }
             }
         }
+    }
+
+    function makeDateInput(){
+        let input = document.createElement('input');
+        setAttributes(input, {'type': 'date', 'name': 'date', 'id': 'date'});
+        return input;
     }
 
     function setAttributes(element, attrObj){
@@ -128,7 +103,35 @@ const dom = (() => {
         }
     }
 
-    return { assembleTask, insertNode, deleteTask };
+    const appendTextNode = (event) => {
+        let div = event.target;
+        let input = document.createElement('input');
+        setAttributes(input, {'type': 'text', 'id': 'name', 'name': 'name', 'minlength': '1', 'maxlength': '15', 'placeholder': 'Enter to save'});
+        let li = div.parentNode;
+        insertNode(li, input, div);
+        let removedDiv = li.removeChild(div);
+        return [removedDiv, input];  
+    };
+
+    const appendTextContent = (div, event) => {
+        let input = event.target;
+        let li = event.target.parentNode;
+        div.textContent = input.value;
+        insertNode(li, div, input);
+        input.remove();
+    };
+
+    const toggleShadow = (listContainer, prioDiv) => {
+        if (prioDiv.classList.contains('normal')){
+            prioDiv.classList.remove('normal');
+            listContainer.classList.add('shadow');
+        }
+        else {
+            prioDiv.classList.add('normal');
+            listContainer.classList.remove('shadow');
+        }
+    }
+    return { assembleTask, insertNode, deleteTask, removeAllChildNodes, makeDateInput, getNthParent, toggleShadow, appendTextNode, appendTextContent };
 })();
 
 export default dom;
